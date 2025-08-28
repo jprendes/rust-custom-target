@@ -1,0 +1,12 @@
+[package]
+name = "freestanding"
+edition = "2024"
+
+[dependencies]
+linux-syscall = "1.2.0"
+buddy_system_allocator = "0.11.0"
+
+[profile.release]
+opt-level = "z"
+strip = "symbols"
+split-debuginfo = "packed"
