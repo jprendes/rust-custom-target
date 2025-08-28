@@ -44,7 +44,15 @@ Modify the file to change the target's configuration. In this case, we specify t
  }
 ```
 
-### 2. Build the standard library for the custom target
+### 2. Get the source code of the standard library
+
+You can install the source code of the standard library with `rustup`:
+
+```bash
+rustup component add rust-src
+```
+
+### 3. Build the standard library for the custom target
 
 To build the standard library for the custom target, we create a dummy crate, in this case we can use the crate in the `hacks` directory.
 
@@ -63,7 +71,7 @@ cargo rustc \
 
 The `-Zbuild-std-features=mem` flag tells `cargo` to build the `compiler-builtins` crate with the `mem` feature enabled, which adds the intrinsics for memory operations like `memcpy`, `memset`, etc.
 
-### 3. Creating a sysroot
+### 4. Creating a sysroot
 
 To use the built standard library, we need to create a sysroot that contains the built libraries.
 We can do this by copying the libraries from the `deps` directory from the target directory to the location where rustc expects to find them.
@@ -74,7 +82,7 @@ cp target/sysroot/target/x86_64-custom-static/release/deps/lib* \
    target/sysroot/lib/rustlib/x86_64-custom-static/lib/
 ```
 
-### 4. Build and run the project
+### 5. Build and run the project
 
 Now we can build and run the project using the custom target and the sysroot we just created.
 Note that this does not require a nightly `cargo` or the `RUSTC_BOOTSTRAP` environment variable.

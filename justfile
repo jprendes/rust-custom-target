@@ -7,6 +7,10 @@ SYSROOT_DIR := PWD + "/target/sysroot"
 
 default: run
 
+# Download the Rust std source code if not already available
+get-rust-src:
+    rustup component add rust-src
+
 # Make a custom target just like x86_64-unknown-none but with static relocation model
 generate-target-spec:
     @mkdir -p {{SYSROOT_DIR}}
@@ -20,7 +24,7 @@ generate-target-spec:
         > {{TARGET_SPEC}}
 
 # Generate the sysroot for the custom target
-make-sysroot: generate-target-spec
+make-sysroot: generate-target-spec get-rust-src
     @mkdir -p {{SYSROOT_DIR}}
     env RUSTC_BOOTSTRAP=1 \
         cargo rustc \
